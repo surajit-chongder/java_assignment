@@ -34,5 +34,36 @@ public class MatrixTest {
     assertEquals(27,result.getElement(1,0));
     assertEquals(28,result.getElement(1,1));
   }
+  @Test
+  public void matrixDeterminantTest() {
+    int []data = {2,3,4,3};
+    Matrix matrix = new Matrix (2,2,data);
+    int result = matrix.determinant();
+    assertEquals(-6,result);
+  }
+  @Test
+  public void matrixDeterminantTestOF3By3Matrix() {
+    int []data = {2,4,3,5,6,4,5,6,2};
+    Matrix matrix = new Matrix (3,3,data);
+    int result = matrix.determinant();
+    assertEquals(16,result);
+  }
+  @Test
+  public void matrixDeterminantTestOF10By10Matrix() {
+    int []data = {1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,
+                  1,2,3,4,5,6,7,8,9,1};
+    Matrix matrix = new Matrix (10,10,data);
+    int result = matrix.determinant();
+    assertEquals(0,result);
+  }
 
 }

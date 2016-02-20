@@ -45,6 +45,8 @@ class Matrix{
   public Matrix multiply(Matrix second){
     int sum=0,index,initialRow,initialColumn,initialIndex=0;
     int [] multiplyResult = new int[this.rowSize*second.columnSize];
+    if (this.columnSize != second.rowSize)
+      return new Matrix(0,0,new int[0]);
     for (index = 0 ; index < this.rowSize ; index++ ){
           for ( initialRow = 0 ; initialRow < second.columnSize ; initialRow++ ){
              for ( initialColumn = 0 ; initialColumn < this.rowSize ; initialColumn++ ){
@@ -57,6 +59,49 @@ class Matrix{
     }
     return new Matrix(this.rowSize,second.columnSize,multiplyResult);
   }
+
+  public int determinant(){
+    int determinantValue=0;
+    if(this.matrix.length==1){
+      return(this.matrix[0][0]);
+    }
+    for(int index=0;index<this.matrix.length;index++){
+      int[][]determinantMatrix= new int[this.matrix.length-1][this.matrix.length-1];
+      for(int initialRow=1;initialRow<this.matrix.length;initialRow++){
+        for(int initialColumn=0;initialColumn<this.matrix.length;initialColumn++){
+          if(initialColumn<index)
+            determinantMatrix[initialRow-1][initialColumn]=this.matrix[initialRow][initialColumn];
+          else if(initialColumn>index)
+            determinantMatrix[initialRow-1][initialColumn-1]=this.matrix[initialRow][initialColumn];
+        }
+      }
+      int signValue = index%2==0 ? 1 : -1;
+      determinantValue += signValue*this.matrix[0][index]*(determinant(determinantMatrix));
+    }
+    return determinantValue;
+  }
+
+  private int determinant(int [][]matrix){
+    int determinantValue=0;
+    if(matrix.length==1){
+      return(matrix[0][0]);
+    }
+    for(int index=0;index<matrix.length;index++){
+      int[][]determinantMatrix= new int[matrix.length-1][matrix.length-1];
+      for(int initialRow=1;initialRow<matrix.length;initialRow++){
+        for(int initialColumn=0;initialColumn<matrix.length;initialColumn++){
+          if(initialColumn<index)
+            determinantMatrix[initialRow-1][initialColumn]=matrix[initialRow][initialColumn];
+          else if(initialColumn>index)
+            determinantMatrix[initialRow-1][initialColumn-1]=matrix[initialRow][initialColumn];
+        }
+      }
+      int signValue = index%2==0 ? 1 : -1;
+      determinantValue += signValue*matrix[0][index]*(determinant(determinantMatrix));
+    }
+    return determinantValue;
+  }
+
 
   public int getElement(int rowPosition,int columnPosition){
     return matrix[rowPosition][columnPosition];
