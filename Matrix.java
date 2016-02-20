@@ -68,22 +68,25 @@ class Matrix{
     int determinantValue = 0;
     if(matrix.length == 1)
       return(matrix[0][0]);
-    for(int index=0;index < matrix.length;index++){
-      int[][]determinantMatrix = new int[matrix.length-1][matrix.length-1];
-      for(int initialRow=1;initialRow < matrix.length;initialRow++){
-        for(int initialColumn=0 ; initialColumn < matrix.length ; initialColumn++){
-          if(initialColumn<index)
-            determinantMatrix[initialRow-1][initialColumn] = matrix[initialRow][initialColumn];
-          if(initialColumn>index)
-            determinantMatrix[initialRow-1][initialColumn-1] = matrix[initialRow][initialColumn];
-        }
-      }
+    for(int index=0 ; index < matrix.length ; index++){
+      int [][] coefficientMatrix = findCofficient(matrix,index);
       int signValue = (index % 2 == 0) ? 1 : -1;
-      determinantValue += signValue*matrix[0][index]*(determinantTo(determinantMatrix));
+      determinantValue += signValue*matrix[0][index]*(determinantTo(coefficientMatrix));
     }
     return determinantValue;
   }
-
+  private int[][] findCofficient(int [][]matrix,int index){
+    int[][]coefficient = new int[matrix.length-1][matrix.length-1];
+    for(int initialRow=1 ; initialRow < matrix.length ; initialRow++){
+      for(int initialColumn=0 ; initialColumn < matrix.length ; initialColumn++){
+        if(initialColumn < index)
+          coefficient[initialRow-1][initialColumn] = matrix[initialRow][initialColumn];
+        if(initialColumn > index)
+          coefficient[initialRow-1][initialColumn-1] = matrix[initialRow][initialColumn];
+      }
+    }
+    return coefficient;
+  }
 
   public int getElement(int rowPosition,int columnPosition){
     return matrix[rowPosition][columnPosition];
