@@ -1,7 +1,6 @@
 class Matrix{
-  private int rowSize;
-  private int columnSize;
-  private int[][] matrix;
+  private final int rowSize,columnSize;
+  private final int[][] matrix;
 
   public Matrix(int rowSize,int columnSize,int [] data){
     this.rowSize = rowSize;
@@ -13,16 +12,16 @@ class Matrix{
     int index;
     int initialRow = 0;
     int initialColumn = 0;
-    matrix = new int [rowSize][columnSize];
+    int [][]initialMatrix = new int [rowSize][columnSize];
     for (index = 0 ; index < matrixData.length ; index++ ){
-      matrix[initialRow][initialColumn]=matrixData[index];
+      initialMatrix[initialRow][initialColumn] = matrixData[index];
       initialColumn++;
       if (initialColumn == columnSize) {
         initialRow++;
         initialColumn = 0;
       }
     }
-    return matrix;
+    return initialMatrix;
   }
 
   public Matrix add(Matrix second){
@@ -68,17 +67,18 @@ class Matrix{
     int determinantValue = 0;
     if(matrix.length == 1)
       return(matrix[0][0]);
-    for(int index=0 ; index < matrix.length ; index++){
+    for(int index = 0 ; index < matrix.length ; index++){
       int [][] coefficientMatrix = findCofficient(matrix,index);
       int signValue = (index % 2 == 0) ? 1 : -1;
       determinantValue += signValue*matrix[0][index]*(determinantTo(coefficientMatrix));
     }
     return determinantValue;
   }
+
   private int[][] findCofficient(int [][]matrix,int index){
     int[][]coefficient = new int[matrix.length-1][matrix.length-1];
-    for(int initialRow=1 ; initialRow < matrix.length ; initialRow++){
-      for(int initialColumn=0 ; initialColumn < matrix.length ; initialColumn++){
+    for(int initialRow = 1 ; initialRow < matrix.length ; initialRow++){
+      for(int initialColumn = 0 ; initialColumn < matrix.length ; initialColumn++){
         if(initialColumn < index)
           coefficient[initialRow-1][initialColumn] = matrix[initialRow][initialColumn];
         if(initialColumn > index)
